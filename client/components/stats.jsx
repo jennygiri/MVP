@@ -3,7 +3,7 @@ import statsLabel from '../../assets/statsLabel.png';
 
 const Stats = ({ name, age, weight, hungerHearts }) => {
   const [heartsArr, setHeartsArr] = useState(null);
-  const heartsArray = (hungerHearts) => {
+  const makeHeartsArray = (hungerHearts) => {
     let hearts = [];
     for (let i = 0; i < hungerHearts; i++) {
       hearts.push(true);
@@ -15,7 +15,7 @@ const Stats = ({ name, age, weight, hungerHearts }) => {
   };
 
   useEffect(() => {
-    setHeartsArr(heartsArray(hungerHearts));
+    setHeartsArr(makeHeartsArray(hungerHearts));
   }, [hungerHearts]);
 
   return (
