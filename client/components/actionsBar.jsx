@@ -5,12 +5,15 @@ const ActionsBar = () => {
   return (
     <div className='actionsBar'>
       <button
+        id='feedbtn'
         onClick={() => {
           setFeedToggle(!feedToggle);
         }}
       >
         Feed
       </button>
+      <button id='playbtn'>Play</button>
+      <button id='sleepbtn'>Sleep</button>
     </div>
   );
 };

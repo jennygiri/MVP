@@ -18,7 +18,7 @@ let addPet = (newUserObj) => {
     name: newUserObj.name,
     age: 0,
     weight: 0.5,
-    hungerhearts: 0,
+    hungerhearts: 5,
     timesFed: 0,
   });
   return pet.save();

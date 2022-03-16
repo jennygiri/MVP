@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Character from './components/Character.jsx';
 import Stats from './components/Stats.jsx';
 import ActionsBar from './components/ActionsBar.jsx';
@@ -10,18 +10,18 @@ const App = (props) => {
   const [user, setUser] = useState('');
   const [age, setAge] = useState(0);
   const [weight, setWeight] = useState(0);
-  const [hungerHearts, setHungerHearts] = useState(0);
+  const [hungerHearts, setHungerHearts] = useState(5);
   const [loggedIn, setLoggedIn] = useState(false);
 
   const getStats = (user) => {
     axios
       .get(`/stats/${user}`)
       .then((response) => {
-        console.log('NAAAAAAME', response.data);
         setName(response.data[0].name);
         setWeight(response.data[0].weight);
         setAge(response.data[0].age);
-        setHungerHearts(response.data[0].hungerHearts);
+        //setHungerHearts(response.data[0].hungerhearts);
+        setHungerHearts(3);
       })
       .catch((error) => {
         console.error(error);
@@ -67,6 +67,32 @@ const App = (props) => {
     }
   }, [user]);
 
+  const useInterval = (callback, delay) => {
+    const savedCB = useRef();
+    //current is set to nothing rn
+    useEffect(() => {
+      savedCB.current = callback;
+    }, [callback]);
+
+    useEffect(() => {
+      const run = () => {
+        savedCB.current();
+      };
+      if (delay !== null) {
+        let id = setInterval(run, delay);
+        return () => {
+          clearInterval(id);
+        };
+      }
+    }, [delay]);
+  };
+
+  useInterval(() => {
+    if (hungerHearts > 0) {
+      setHungerHearts(hungerHearts - 1);
+    }
+  }, 5000);
+
   if (!loggedIn) {
     return (
       <Login user={user} setUser={setUser} name={name} setName={setName} />
@@ -79,7 +105,12 @@ const App = (props) => {
           <div id='petName'>{name}</div>
         </div>
         <ActionsBar />
-        <Stats name={name} age={age} hungerHearts={3} weight={weight} />
+        <Stats
+          name={name}
+          age={age}
+          hungerHearts={hungerHearts}
+          weight={weight}
+        />
       </div>
     );
   }
