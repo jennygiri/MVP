@@ -1,9 +1,10 @@
 import React from 'react';
+import bouncyadult from '../../assets/bouncyadult.png';
 
-const Character = () => {
+const Character = ({ name }) => {
   return (
     <div className='mainCharacter'>
-      <img className='spriteSheet' src='./../assets/bouncyadult.png' />
+      <img className='spriteSheet' src={bouncyadult} />
     </div>
   );
 };
