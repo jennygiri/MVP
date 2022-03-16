@@ -4,6 +4,7 @@ import Stats from './components/Stats.jsx';
 import ActionsBar from './components/ActionsBar.jsx';
 import axios from 'axios';
 import Login from './components/Login.jsx';
+import Food from './components/Food.jsx';
 
 const App = (props) => {
   const [name, setName] = useState('');
@@ -12,16 +13,17 @@ const App = (props) => {
   const [weight, setWeight] = useState(0);
   const [hungerHearts, setHungerHearts] = useState(5);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [feedToggle, setFeedToggle] = useState(false);
 
   const getStats = (user) => {
     axios
       .get(`/stats/${user}`)
       .then((response) => {
+        console.log('Response from Get Request', response);
         setName(response.data[0].name);
         setWeight(response.data[0].weight);
         setAge(response.data[0].age);
-        //setHungerHearts(response.data[0].hungerhearts);
-        setHungerHearts(3);
+        setHungerHearts(response.data[0].hungerhearts);
       })
       .catch((error) => {
         console.error(error);
@@ -43,7 +45,6 @@ const App = (props) => {
     axios
       .get(`/users/${user}`)
       .then((response) => {
-        console.log(response.data);
         //!they tried to make a new account
         if (response.data === 0 && name.length > 0) {
           addPet(user, name);
@@ -55,6 +56,18 @@ const App = (props) => {
           getStats(user);
           setLoggedIn(true);
         }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const addHeart = () => {
+    axios
+      .get(`/feeding/${user}`)
+      .then(() => {
+        getStats(user);
+        console.log('put successful');
       })
       .catch((error) => {
         console.error(error);
@@ -87,11 +100,23 @@ const App = (props) => {
     }, [delay]);
   };
 
+  const removeHearts = () => {
+    axios
+      .get(`/heartsRem/${user}`)
+      .then(() => {
+        getStats(user);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   useInterval(() => {
+    removeHearts();
     if (hungerHearts > 0) {
-      setHungerHearts(hungerHearts - 1);
+      //setHungerHearts(hungerHearts - 1);
     }
-  }, 5000);
+  }, 15000);
 
   if (!loggedIn) {
     return (
@@ -103,8 +128,16 @@ const App = (props) => {
         <div id='kittyCorner'>
           <Character name={name} />
           <div id='petName'>{name}</div>
+          {feedToggle ? (
+            <Food
+              feedToggle={feedToggle}
+              setFeedToggle={setFeedToggle}
+              useInterval={useInterval}
+              addHeart={addHeart}
+            />
+          ) : null}
         </div>
-        <ActionsBar />
+        <ActionsBar feedToggle={feedToggle} setFeedToggle={setFeedToggle} />
         <Stats
           name={name}
           age={age}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import statsLabel from '../../assets/statsLabel.png';
 
-const Stats = ({ name, age, weight, hungerHearts }) => {
+const Stats = ({ name, age, weight, hungerHearts, setHungerHearts }) => {
   const [heartsArr, setHeartsArr] = useState(null);
   const makeHeartsArray = (hungerHearts) => {
     let hearts = [];
@@ -15,6 +15,7 @@ const Stats = ({ name, age, weight, hungerHearts }) => {
   };
 
   useEffect(() => {
+    console.log('hunger hearts:', hungerHearts);
     setHeartsArr(makeHeartsArray(hungerHearts));
   }, [hungerHearts]);
 
@@ -24,6 +25,8 @@ const Stats = ({ name, age, weight, hungerHearts }) => {
       <div id='age'>{age} years old</div>
       <div id='weight'>{weight} oz</div>
       <div id='hungerHearts'>
+        hunger meter
+        <br></br>
         {heartsArr &&
           heartsArr.map((bool, index) => {
             if (bool) {

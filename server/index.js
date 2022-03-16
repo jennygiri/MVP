@@ -10,7 +10,6 @@ app.use(express.json());
 app.get('/stats/:user', (req, res) => {
   db.getStats(req.params.user)
     .then((response) => {
-      console.log(JSON.stringify(response));
       res.status(200).send(JSON.stringify(response));
     })
     .catch((error) => {
@@ -37,6 +36,30 @@ app.get('/users/:user', (req, res) => {
     }
   });
 });
+
+app.get('/feeding/:user', (req, res) => {
+  console.log('Made it to server');
+  db.updateFeedings(req.params.user, (error, response) => {
+    if (error) {
+      console.error(error);
+    } else {
+      res.send(200);
+    }
+  });
+});
+
+app.get('/heartsRem/:user', (req, res) => {
+  console.log('in server');
+  db.removeHearts(req.params.user, (error, response) => {
+    if (error) {
+      console.error(error);
+    } else {
+      res.send(200);
+    }
+  });
+});
+
+db.removeHearts('Jenny');
 
 let port = 3333;
 
