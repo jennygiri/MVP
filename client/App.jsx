@@ -14,16 +14,43 @@ const App = (props) => {
   const [hungerHearts, setHungerHearts] = useState(5);
   const [loggedIn, setLoggedIn] = useState(false);
   const [feedToggle, setFeedToggle] = useState(false);
+  const [timesFed, setTimesFed] = useState(0);
+
+  const meow = new Audio('meow.mp3');
+
+  useEffect(() => {
+    if (hungerHearts === 0) {
+      meow.play();
+    }
+  }, [hungerHearts]);
+  console.log('timesfed', timesFed);
+
+  useEffect(() => {
+    if (timesFed >= 5) {
+      updateAgeAndWeight();
+    }
+  }, [timesFed]);
+
+  const updateAgeAndWeight = () => {
+    axios
+      .get(`/growing/${user}/${timesFed}`)
+      .then(() => {
+        getStats(user);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   const getStats = (user) => {
     axios
       .get(`/stats/${user}`)
       .then((response) => {
-        console.log('Response from Get Request', response);
         setName(response.data[0].name);
         setWeight(response.data[0].weight);
         setAge(response.data[0].age);
         setHungerHearts(response.data[0].hungerhearts);
+        setTimesFed(response.data[0].timesFed);
       })
       .catch((error) => {
         console.error(error);
@@ -67,7 +94,6 @@ const App = (props) => {
       .get(`/feeding/${user}`)
       .then(() => {
         getStats(user);
-        console.log('put successful');
       })
       .catch((error) => {
         console.error(error);
@@ -112,8 +138,8 @@ const App = (props) => {
   };
 
   useInterval(() => {
-    removeHearts();
     if (hungerHearts > 0) {
+      removeHearts();
       //setHungerHearts(hungerHearts - 1);
     }
   }, 15000);
@@ -137,13 +163,15 @@ const App = (props) => {
             />
           ) : null}
         </div>
-        <ActionsBar feedToggle={feedToggle} setFeedToggle={setFeedToggle} />
-        <Stats
-          name={name}
-          age={age}
-          hungerHearts={hungerHearts}
-          weight={weight}
-        />
+        <div className='topBar'>
+          <ActionsBar feedToggle={feedToggle} setFeedToggle={setFeedToggle} />
+          <Stats
+            name={name}
+            age={age}
+            hungerHearts={hungerHearts}
+            weight={weight}
+          />
+        </div>
       </div>
     );
   }

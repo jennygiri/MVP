@@ -40,13 +40,21 @@ const updateFeedings = (user, callback) => {
   ).exec(callback);
 };
 
+const updateGrowth = (user, timesFed, callback) => {
+  if (timesFed >= 5 && timesFed < 10) {
+    Pet.findOneAndUpdate({ user: user }, { age: 2, weight: 1 }).exec(callback);
+  }
+  if (timesFed >= 10) {
+    Pet.findOneAndUpdate({ user: user }, { age: 5, weight: 10 }).exec(callback);
+  }
+};
+
 const removeHearts = (user, callback) => {
   Pet.findOneAndUpdate(
     { user: user },
     { $inc: { hungerhearts: -1 } },
     callback
   );
-  //Pet.findOneAndUpdate({ user: user }, { hungerhearts: 5 }).exec(callback);
 };
 
 module.exports = {
@@ -55,4 +63,5 @@ module.exports = {
   checkIfExists: checkIfExists,
   updateFeedings: updateFeedings,
   removeHearts: removeHearts,
+  updateGrowth: updateGrowth,
 };

@@ -1,3 +1,7 @@
+:root {
+  background-color: black;
+}
+
 body {
   height: 100%;
   width: 100%;
@@ -25,6 +29,7 @@ body {
   background-image: url('reresizedBG.png');
   background-size: 1000px;
   background-repeat: no-repeat;
+  margin: auto;
 }
 
 #loginForm {
@@ -91,36 +96,44 @@ button {
   animation: moveSpritesheet 1s steps(4);
 }
 
+.topBar {
+  grid-column: 1 / span 5;
+  grid-row: 1 / span 1;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+}
+
 .actionsBar {
   grid-column: 1 / span 3;
-  grid-row-start: 1;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
 }
 
 .actionsBar button {
   padding: 10px;
-  border: 5px solid #e09ecac2;
+  border: 5px solid #e09eca93;
   border-radius: 30%;
-  background-color: #e09ecac2;
+  background-color: #e09eca93;
   font-size: 50px;
   max-height: 200px;
   margin: 20px;
   width: 200px;
+  margin-top: 30px;
+  height: 200px;
 }
 
 .stats {
-  border: 5px solid #e09ecac2;
-  grid-column: 5 / span 1;
-  grid-row-start: 1;
+  border: 5px solid #e09eca93;
+  grid-column: 4 / span 1;
   border-top-left-radius: 50%;
   border-top-right-radius: 50%;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(5, 1fr);
-  background-color: #e09ecac2;
+  background-color: #e09eca93;
   max-height: 200px;
   width: 200px;
+  margin-top: 15px;
+  border-bottom-left-radius: 10%;
+  border-bottom-right-radius: 10%;
 }
 
 .stats img {

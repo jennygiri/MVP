@@ -15,9 +15,13 @@ const config = {
         exclude: /node_modules/,
       },
       {
-        test: /\.(png|jpe?g|gif)$/i,
+        test: /\.(png|jpe?g|gif|mp3|wav)$/i,
         use: 'file-loader',
       },
+      //{
+      //  test: /\.(mp3|wav)$/,
+      //  loader: 'file-loader',
+      //},
     ],
   },
   mode: 'development',

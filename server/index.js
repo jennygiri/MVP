@@ -38,7 +38,6 @@ app.get('/users/:user', (req, res) => {
 });
 
 app.get('/feeding/:user', (req, res) => {
-  console.log('Made it to server');
   db.updateFeedings(req.params.user, (error, response) => {
     if (error) {
       console.error(error);
@@ -49,7 +48,6 @@ app.get('/feeding/:user', (req, res) => {
 });
 
 app.get('/heartsRem/:user', (req, res) => {
-  console.log('in server');
   db.removeHearts(req.params.user, (error, response) => {
     if (error) {
       console.error(error);
@@ -59,7 +57,16 @@ app.get('/heartsRem/:user', (req, res) => {
   });
 });
 
-db.removeHearts('Jenny');
+app.get('/growing/:user/:timesFed', (req, res) => {
+  console.log('MADE IT INTO SERVER');
+  db.updateGrowth(req.params.user, req.params.timesFed, (error, response) => {
+    if (error) {
+      console.error(error);
+    } else {
+      res.sendStatus(200);
+    }
+  });
+});
 
 let port = 3333;
 

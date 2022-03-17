@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import statsLabel from '../../assets/statsLabel.png';
 
-const Stats = ({ name, age, weight, hungerHearts, setHungerHearts }) => {
+const Stats = ({ name, age, weight, hungerHearts }) => {
   const [heartsArr, setHeartsArr] = useState(null);
   const makeHeartsArray = (hungerHearts) => {
     let hearts = [];
+    hungerHearts > 5 ? (hungerHearts = 5) : null;
     for (let i = 0; i < hungerHearts; i++) {
       hearts.push(true);
     }
