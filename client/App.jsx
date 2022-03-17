@@ -15,6 +15,7 @@ const App = (props) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [feedToggle, setFeedToggle] = useState(false);
   const [timesFed, setTimesFed] = useState(0);
+  const [isAsleep, setIsAsleep] = useState(false);
 
   const meow = new Audio('meow.mp3');
 
@@ -78,7 +79,7 @@ const App = (props) => {
           setLoggedIn(true);
           //!they tried to login but their username doesn't exist
         } else if (response.data === 0 && name.length === 0) {
-          alert('there is no user with this name, please create an account');
+          alert('There is no user with this name, please create an account!');
         } else {
           getStats(user);
           setLoggedIn(true);
@@ -142,7 +143,7 @@ const App = (props) => {
       removeHearts();
       //setHungerHearts(hungerHearts - 1);
     }
-  }, 15000);
+  }, 10000);
 
   if (!loggedIn) {
     return (
@@ -151,8 +152,9 @@ const App = (props) => {
   } else {
     return (
       <div className='entireApp'>
+        {isAsleep && <div id='sleepScreen'></div>}
         <div id='kittyCorner'>
-          <Character name={name} />
+          <Character name={name} isAsleep={isAsleep} />
           <div id='petName'>{name}</div>
           {feedToggle ? (
             <Food
@@ -164,7 +166,12 @@ const App = (props) => {
           ) : null}
         </div>
         <div className='topBar'>
-          <ActionsBar feedToggle={feedToggle} setFeedToggle={setFeedToggle} />
+          <ActionsBar
+            feedToggle={feedToggle}
+            setFeedToggle={setFeedToggle}
+            isAsleep={isAsleep}
+            setIsAsleep={setIsAsleep}
+          />
           <Stats
             name={name}
             age={age}
