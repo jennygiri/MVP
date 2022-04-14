@@ -1,7 +1,7 @@
 # Kittygotchi
 A browser-based Tamagotchi inspired game 
 
-The user first lands on this login page which allows them to make a new Kittygotchi, or enter their name to access their previously created pet.  If on account creation the username already exists, an alert will pop-up to tell them to choose a new username.
+The user first lands on this nostalgiac login page which allows them to make a new Kittygotchi, or enter their name to access their previously created pet.  If on account creation the username already exists, an alert will pop-up to tell them to choose a new username.
 
 ![Nostalgiac Login Page](https://i.imgur.com/b3f0zNu.png)
 
